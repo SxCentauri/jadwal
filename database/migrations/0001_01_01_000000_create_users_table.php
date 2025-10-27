@@ -17,6 +17,11 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+
+            // <-- PERUBAHAN DI SINI
+            // Menggunakan enum untuk membatasi nilai yang diizinkan
+            $table->enum('role', ['admin', 'dosen', 'user'])->default('user');
+
             $table->rememberToken();
             $table->timestamps();
         });

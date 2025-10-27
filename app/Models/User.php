@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role', // <-- Ditambahkan agar 'role' bisa diisi (mass assignable)
     ];
 
     /**
@@ -30,7 +31,7 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
-        'remember_token',
+        'remember_token', // <-- Typo diperbaiki dari 'remember_Toke'
     ];
 
     /**
