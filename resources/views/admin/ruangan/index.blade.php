@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Admin - Sistem Penjadwalan Kuliah</title>
+    <title>Manajemen Ruangan - Admin</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* Semua style CSS tetap sama seperti sebelumnya */
         * {
             margin: 0;
             padding: 0;
@@ -230,25 +229,6 @@
             overflow-y: auto;
         }
 
-        .page-header {
-            margin-bottom: 30px;
-        }
-
-        .page-title {
-            font-size: 32px;
-            font-weight: 700;
-            color: var(--dark);
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .page-subtitle {
-            color: var(--gray);
-            font-size: 16px;
-        }
-
         /* Welcome Banner */
         .welcome-banner {
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
@@ -263,47 +243,14 @@
             font-size: 24px;
             font-weight: 600;
             margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
         .welcome-text {
             opacity: 0.9;
             font-size: 14px;
-        }
-
-        /* Stats Grid */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .stat-card {
-            background: white;
-            border-radius: 16px;
-            padding: 24px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            border: 1px solid var(--border);
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
-        }
-
-        .stat-value {
-            font-size: 32px;
-            font-weight: 700;
-            color: var(--dark);
-            margin-bottom: 8px;
-        }
-
-        .stat-label {
-            color: var(--gray);
-            font-size: 14px;
-            font-weight: 500;
         }
 
         /* Content Section */
@@ -336,122 +283,277 @@
             color: var(--primary);
         }
 
-        .view-all {
-            color: var(--primary);
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            transition: all 0.3s ease;
-        }
-
-        .view-all:hover {
-            gap: 8px;
-            text-decoration: underline;
-        }
-
-        /* Activity List */
-        .activity-list {
-            list-style: none;
-        }
-
-        .activity-item {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            padding: 16px 0;
-            border-bottom: 1px solid var(--border);
-            transition: all 0.3s ease;
-        }
-
-        .activity-item:hover {
-            background: var(--gray-light);
-            margin: 0 -20px;
-            padding: 16px 20px;
-            border-radius: 8px;
-        }
-
-        .activity-item:last-child {
-            border-bottom: none;
-        }
-
-        .activity-icon {
-            width: 44px;
-            height: 44px;
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            padding: 12px 24px;
             border-radius: 12px;
-            background: var(--gray-light);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            color: var(--primary);
-        }
-
-        .activity-content {
-            flex: 1;
-        }
-
-        .activity-text {
-            color: var(--dark);
-            margin-bottom: 4px;
-            font-weight: 500;
-        }
-
-        .activity-time {
-            font-size: 13px;
-            color: var(--gray);
-        }
-
-        /* Quick Actions */
-        .actions-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 16px;
-        }
-
-        .action-btn {
-            background: white;
-            border: 2px solid var(--border);
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
             text-decoration: none;
-            color: inherit;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
         }
 
-        .action-btn:hover {
-            border-color: var(--primary);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.15);
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
         }
 
-        .action-icon {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+        /* Alerts */
+        .alert {
+            padding: 16px 20px;
             border-radius: 12px;
+            margin-bottom: 24px;
+            font-weight: 500;
+            border: 1px solid transparent;
+        }
+
+        .alert-success {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+            border-color: rgba(16, 185, 129, 0.2);
+        }
+
+        .alert-error {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+            border-color: rgba(239, 68, 68, 0.2);
+        }
+
+        /* Table */
+        .table-responsive {
+            overflow-x: auto;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        .data-table th {
+            background: var(--gray-light);
+            padding: 16px 20px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--dark);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .data-table td {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border);
+            color: var(--dark);
+        }
+
+        .data-table tbody tr {
+            transition: all 0.3s ease;
+        }
+
+        .data-table tbody tr:hover {
+            background: var(--gray-light);
+        }
+
+        .data-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .btn-edit {
+            background: var(--warning);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-edit:hover {
+            background: #eab308;
+            transform: translateY(-1px);
+        }
+
+        .btn-delete {
+            background: var(--danger);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-delete:hover {
+            background: #dc2626;
+            transform: translateY(-1px);
+        }
+
+        /* Pagination */
+        .pagination-container {
+            margin-top: 24px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .pagination {
+            display: flex;
+            gap: 8px;
+            list-style: none;
+            align-items: center;
+        }
+
+        .pagination li a,
+        .pagination li span {
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            margin: 0 auto 12px;
-            font-size: 20px;
-        }
-
-        .action-label {
-            font-weight: 600;
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
             color: var(--dark);
-            font-size: 14px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            min-width: 40px;
         }
 
-        .action-desc {
-            font-size: 12px;
+        .pagination li a:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .pagination li.active span {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .pagination li.disabled span {
             color: var(--gray);
-            margin-top: 6px;
+            background: var(--gray-light);
+            border-color: var(--border);
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--gray);
+        }
+
+        .empty-state i {
+            font-size: 48px;
+            margin-bottom: 16px;
+            color: var(--border);
+        }
+
+        /* Custom Confirmation Modal */
+        .confirmation-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .confirmation-modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+        }
+
+        .modal-icon {
+            font-size: 48px;
+            color: var(--danger);
+            margin-bottom: 16px;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--dark);
+        }
+
+        .modal-message {
+            color: var(--gray);
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .btn-cancel {
+            background: var(--gray-light);
+            color: var(--dark);
+            border: 2px solid var(--border);
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-cancel:hover {
+            background: var(--border);
+        }
+
+        .btn-confirm {
+            background: var(--danger);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-confirm:hover {
+            background: #dc2626;
         }
 
         /* Responsive */
@@ -471,10 +573,6 @@
                 height: auto;
             }
 
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-
             .main-content {
                 padding: 20px;
             }
@@ -483,19 +581,35 @@
                 position: relative;
             }
 
-            .activity-item:hover {
-                margin: 0 -10px;
-                padding: 16px 10px;
+            .action-buttons {
+                flex-direction: column;
+                gap: 6px;
+            }
+
+            .btn-edit,
+            .btn-delete {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .modal-actions {
+                flex-direction: column;
+            }
+
+            .btn-cancel,
+            .btn-confirm {
+                width: 100%;
             }
         }
     </style>
 </head>
 <body>
-    <form method="POST" action="{{ route('logout') }}" id="logout-form" style="display: none;">
+    <!-- Form Logout Tersembunyi -->
+    <form id="logout-form" action="{{ route('logout') }}" method="POST">
         @csrf
     </form>
 
-    <!-- Main Layout -->
+    <!-- Layout Dashboard -->
     <div class="dashboard-layout">
         <!-- Sidebar -->
         <nav class="sidebar">
@@ -519,7 +633,7 @@
                     <div class="section-title">Menu Utama</div>
                 </div>
                 <li>
-                    <a href="{{ route('dashboard') }}" class="menu-item active">
+                    <a href="{{ route('dashboard') }}" class="menu-item">
                         <div class="menu-icon">
                             <i class="fas fa-tachometer-alt"></i>
                         </div>
@@ -555,9 +669,9 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('admin.ruangan.index') }}" class="menu-item">
+                    <a href="{{ route('admin.ruangan.index') }}" class="menu-item active">
                         <div class="menu-icon">
-                            <i class="fas fa-building"></i>
+                            <i class="fas fa-door-open"></i>
                         </div>
                         <div class="menu-text">Ruangan</div>
                     </a>
@@ -627,156 +741,148 @@
         <main class="main-content">
             <!-- Welcome Banner -->
             <div class="welcome-banner">
-                <div class="welcome-title">Selamat Datang, {{ Auth::user()->name }}! 👋</div>
-                <div class="welcome-text" id="current-time"></div>
+                <div class="welcome-title">
+                    <i class="fas fa-door-open"></i>
+                    Manajemen Ruangan
+                </div>
+                <div class="welcome-text">Kelola data ruangan untuk proses penjadwalan</div>
             </div>
 
-            <!-- Stats Grid -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-value">1,248</div>
-                    <div class="stat-label">Total Mahasiswa</div>
+            <!-- Pesan Sukses -->
+            @if (session('success'))
+                <div class="alert alert-success">
+                    <i class="fas fa-check-circle"></i>
+                    {{ session('success') }}
                 </div>
-                <div class="stat-card">
-                    <div class="stat-value">48</div>
-                    <div class="stat-label">Total Dosen</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value">86</div>
-                    <div class="stat-label">Mata Kuliah</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value">12</div>
-                    <div class="stat-label">Konflik Jadwal</div>
-                </div>
-            </div>
+            @endif
 
-            <!-- Recent Activity -->
+            <!-- Konten Utama (Tabel Ruangan) -->
             <div class="content-section">
                 <div class="section-header">
                     <h2 class="section-title">
-                        <i class="fas fa-history"></i>
-                        Aktivitas Terbaru
+                        <i class="fas fa-list"></i>
+                        Daftar Ruangan
                     </h2>
-                    <a href="#" class="view-all">
-                        Lihat Semua
-                        <i class="fas fa-chevron-right"></i>
+                    <a href="{{ route('admin.ruangan.create') }}" class="btn-primary">
+                        <i class="fas fa-plus"></i>
+                        Tambah Ruangan
                     </a>
                 </div>
-                <ul class="activity-list">
-                    <li class="activity-item">
-                        <div class="activity-icon">
-                            <i class="fas fa-plus"></i>
-                        </div>
-                        <div class="activity-content">
-                            <div class="activity-text">Jadwal baru ditambahkan untuk semester ganjil 2024</div>
-                            <div class="activity-time">2 jam yang lalu</div>
-                        </div>
-                    </li>
-                    <li class="activity-item">
-                        <div class="activity-icon">
-                            <i class="fas fa-user-plus"></i>
-                        </div>
-                        <div class="activity-content">
-                            <div class="activity-text">Dr. Ahmad ditambahkan sebagai dosen pengampu</div>
-                            <div class="activity-time">5 jam yang lalu</div>
-                        </div>
-                    </li>
-                    <li class="activity-item">
-                        <div class="activity-icon">
-                            <i class="fas fa-exclamation-circle"></i>
-                        </div>
-                        <div class="activity-content">
-                            <div class="activity-text">Konflik jadwal terdeteksi di ruangan A101</div>
-                            <div class="activity-time">1 hari yang lalu</div>
-                        </div>
-                    </li>
-                    <li class="activity-item">
-                        <div class="activity-icon">
-                            <i class="fas fa-edit"></i>
-                        </div>
-                        <div class="activity-content">
-                            <div class="activity-text">Mata kuliah Kecerdasan Buatan diperbarui</div>
-                            <div class="activity-time">2 hari yang lalu</div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
 
-            <!-- Quick Actions -->
-            <div class="content-section">
-                <div class="section-header">
-                    <h2 class="section-title">
-                        <i class="fas fa-bolt"></i>
-                        Aksi Cepat
-                    </h2>
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Nama Ruangan</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse ($ruangans as $ruangan)
+                                <tr>
+                                    <td>{{ $ruangan->nama_ruangan }}</td>
+                                    <td class="action-buttons">
+                                        <a href="{{ route('admin.ruangan.edit', $ruangan->id) }}" class="btn-edit" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                            Edit
+                                        </a>
+                                        <button type="button" class="btn-delete" title="Hapus"
+                                            onclick="showDeleteConfirmation('{{ $ruangan->nama_ruangan }}', '{{ route('admin.ruangan.destroy', $ruangan->id) }}')">
+                                            <i class="fas fa-trash"></i>
+                                            Hapus
+                                        </button>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="2" class="empty-state">
+                                        <i class="fas fa-door-open"></i>
+                                        <div>Belum ada data ruangan</div>
+                                    </td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
                 </div>
-                <div class="actions-grid">
-                    <a href="#" class="action-btn">
-                        <div class="action-icon">
-                            <i class="fas fa-clock"></i>
-                        </div>
-                        <div class="action-label">Kelola Pra-Penjadwalan</div>
-                        <div class="action-desc">Kelola preferensi jadwal dosen</div>
-                    </a>
-                    <a href="#" class="action-btn">
-                        <div class="action-icon">
-                            <i class="fas fa-plus"></i>
-                        </div>
-                        <div class="action-label">Tambah Jadwal</div>
-                        <div class="action-desc">Buat jadwal kuliah baru</div>
-                    </a>
-                    <a href="#" class="action-btn">
-                        <div class="action-icon">
-                            <i class="fas fa-chalkboard-teacher"></i>
-                        </div>
-                        <div class="action-label">Kelola Dosen</div>
-                        <div class="action-desc">Kelola data dosen</div>
-                    </a>
-                    <a href="#" class="action-btn">
-                        <div class="action-icon">
-                            <i class="fas fa-chart-bar"></i>
-                        </div>
-                        <div class="action-label">Laporan</div>
-                        <div class="action-desc">Lihat laporan sistem</div>
-                    </a>
+
+                <!-- Pagination -->
+                <div class="pagination-container">
+                    {{ $ruangans->links() }}
                 </div>
             </div>
         </main>
     </div>
 
+    <!-- Modal Konfirmasi Hapus -->
+    <div class="confirmation-modal" id="deleteModal">
+        <div class="modal-content">
+            <div class="modal-icon">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <h3 class="modal-title">Konfirmasi Penghapusan</h3>
+            <p class="modal-message" id="modalMessage">Apakah Anda yakin ingin menghapus data ruangan ini? Tindakan ini tidak dapat dibatalkan.</p>
+            <div class="modal-actions">
+                <button type="button" class="btn-cancel" id="cancelDelete">Batal</button>
+                <button type="button" class="btn-confirm" id="confirmDelete">Ya, Hapus</button>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // Update waktu real-time
-        function updateCurrentTime() {
-            const now = new Date();
-            const options = {
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit'
-            };
-            document.getElementById('current-time').textContent =
-                now.toLocaleDateString('id-ID', options);
+        let currentDeleteFormUrl = null;
+
+        function showDeleteConfirmation(ruanganName, deleteUrl) {
+            const modal = document.getElementById('deleteModal');
+            const modalMessage = document.getElementById('modalMessage');
+
+            modalMessage.textContent = `Apakah Anda yakin ingin menghapus ruangan "${ruanganName}"? Tindakan ini tidak dapat dibatalkan.`;
+            currentDeleteFormUrl = deleteUrl;
+            modal.classList.add('active');
         }
 
-        // Update waktu setiap menit
-        setInterval(updateCurrentTime, 60000);
-        updateCurrentTime();
+        function hideDeleteConfirmation() {
+            const modal = document.getElementById('deleteModal');
+            modal.classList.remove('active');
+            currentDeleteFormUrl = null;
+        }
 
-        // Update waktu aktivitas
-        function updateActivityTime() {
-            const now = new Date();
-            const timeElement = document.querySelector('.activity-time');
-            if (timeElement) {
-                document.querySelectorAll('.activity-time')[0].textContent =
-                    now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) + ' yang lalu';
+        function confirmDelete() {
+            if (currentDeleteFormUrl) {
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = currentDeleteFormUrl;
+
+                const csrfToken = document.createElement('input');
+                csrfToken.type = 'hidden';
+                csrfToken.name = '_token';
+                csrfToken.value = '{{ csrf_token() }}';
+                form.appendChild(csrfToken);
+
+                const methodField = document.createElement('input');
+                methodField.type = 'hidden';
+                methodField.name = '_method';
+                methodField.value = 'DELETE';
+                form.appendChild(methodField);
+
+                document.body.appendChild(form);
+                form.submit();
             }
         }
 
-        setInterval(updateActivityTime, 60000);
-        updateActivityTime();
+        document.getElementById('cancelDelete').addEventListener('click', hideDeleteConfirmation);
+        document.getElementById('confirmDelete').addEventListener('click', confirmDelete);
+
+        document.getElementById('deleteModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                hideDeleteConfirmation();
+            }
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                hideDeleteConfirmation();
+            }
+        });
     </script>
 </body>
 </html>

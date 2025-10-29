@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Penugasan Mengajar - Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #2563eb;
+            --secondary: #64748b;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --gray: #64748b;
+            --gray-light: #f1f5f9;
+            --border: #e2e8f0;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Main Layout */
+        .dashboard-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: linear-gradient(180deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 0;
+            box-shadow: 2px 0 20px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .sidebar-header {
+            padding: 30px 24px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.05);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .logo i {
+            font-size: 28px;
+            color: white;
+        }
+
+        .user-info {
+            background: rgba(255,255,255,0.1);
+            padding: 16px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 4px;
+        }
+
+        .user-details {
+            font-size: 13px;
+            opacity: 0.9;
+            margin-bottom: 12px;
+        }
+
+        .logout-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-1px);
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 20px 0;
+        }
+
+        .menu-section {
+            padding: 0 24px;
+            margin-bottom: 8px;
+        }
+
+        .section-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: rgba(255,255,255,0.7);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+            margin-top: 20px;
+        }
+
+        .menu-item {
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            color: rgba(255,255,255,0.9);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            margin: 4px 16px;
+        }
+
+        .menu-item:hover {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .menu-item.active {
+            background: rgba(255,255,255,0.15);
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .menu-icon {
+            width: 20px;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .menu-text {
+            flex: 1;
+            font-size: 14px;
+        }
+
+        .menu-badge {
+            background: var(--danger);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        .menu-badge.new {
+            background: var(--success);
+        }
+
+        .sidebar-footer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 20px 24px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.05);
+        }
+
+        .system-status {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 12px;
+            color: rgba(255,255,255,0.8);
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--success);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 30px;
+            background: var(--light);
+            overflow-y: auto;
+        }
+
+        /* Welcome Banner */
+        .welcome-banner {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 24px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .welcome-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .welcome-text {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+
+        /* Content Section */
+        .content-section {
+            background: white;
+            border-radius: 16px;
+            padding: 28px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid var(--border);
+            margin-bottom: 24px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title i {
+            color: var(--primary);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+        }
+
+        /* Alerts */
+        .alert {
+            padding: 16px 20px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            font-weight: 500;
+            border: 1px solid transparent;
+        }
+
+        .alert-success {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+            border-color: rgba(16, 185, 129, 0.2);
+        }
+
+        .alert-error {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+            border-color: rgba(239, 68, 68, 0.2);
+        }
+
+        /* Table */
+        .table-responsive {
+            overflow-x: auto;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        .data-table th {
+            background: var(--gray-light);
+            padding: 16px 20px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--dark);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .data-table td {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border);
+            color: var(--dark);
+        }
+
+        .data-table tbody tr {
+            transition: all 0.3s ease;
+        }
+
+        .data-table tbody tr:hover {
+            background: var(--gray-light);
+        }
+
+        .data-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .btn-edit {
+            background: var(--warning);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-edit:hover {
+            background: #eab308;
+            transform: translateY(-1px);
+        }
+
+        .btn-delete {
+            background: var(--danger);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-delete:hover {
+            background: #dc2626;
+            transform: translateY(-1px);
+        }
+
+        /* Pagination */
+        .pagination-container {
+            margin-top: 24px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .pagination {
+            display: flex;
+            gap: 8px;
+            list-style: none;
+            align-items: center;
+        }
+
+        .pagination li a,
+        .pagination li span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            min-width: 40px;
+        }
+
+        .pagination li a:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .pagination li.active span {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .pagination li.disabled span {
+            color: var(--gray);
+            background: var(--gray-light);
+            border-color: var(--border);
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--gray);
+        }
+
+        .empty-state i {
+            font-size: 48px;
+            margin-bottom: 16px;
+            color: var(--border);
+        }
+
+        /* Custom Confirmation Modal */
+        .confirmation-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .confirmation-modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+        }
+
+        .modal-icon {
+            font-size: 48px;
+            color: var(--danger);
+            margin-bottom: 16px;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--dark);
+        }
+
+        .modal-message {
+            color: var(--gray);
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .btn-cancel {
+            background: var(--gray-light);
+            color: var(--dark);
+            border: 2px solid var(--border);
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-cancel:hover {
+            background: var(--border);
+        }
+
+        .btn-confirm {
+            background: var(--danger);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-confirm:hover {
+            background: #dc2626;
+        }
+
+        /* Form Styles */
+        .form-container {
+            background: white;
+            border-radius: 16px;
+            padding: 28px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid var(--border);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 14px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        select.form-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 12px center;
+            background-repeat: no-repeat;
+            background-size: 16px;
+            padding-right: 40px;
+        }
+
+        .form-text {
+            font-size: 12px;
+            color: var(--gray);
+            margin-top: 6px;
+        }
+
+        /* Validation Error */
+        .invalid-feedback {
+            color: var(--danger);
+            font-size: 12px;
+            margin-top: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .form-control.is-invalid {
+            border-color: var(--danger);
+        }
+
+        .form-control.is-invalid:focus {
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+        }
+
+        /* Form Buttons */
+        .form-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 32px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .btn-secondary {
+            background: var(--gray-light);
+            color: var(--dark);
+            border: 2px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--border);
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+        }
+
+        /* Alert Error */
+        .alert-danger {
+            padding: 16px 20px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            font-weight: 500;
+        }
+
+        .alert-danger ul {
+            padding-left: 20px;
+            margin-top: 8px;
+        }
+
+        .alert-danger li {
+            margin-bottom: 4px;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 260px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-layout {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+            }
+
+            .main-content {
+                padding: 20px;
+            }
+
+            .sidebar-footer {
+                position: relative;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                gap: 6px;
+            }
+
+            .btn-edit,
+            .btn-delete {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .modal-actions {
+                flex-direction: column;
+            }
+
+            .btn-cancel,
+            .btn-confirm {
+                width: 100%;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Form Logout Tersembunyi -->
+    <form id="logout-form" action="{{ route('logout') }}" method="POST">
+        @csrf
+    </form>
+
+    <!-- Layout Dashboard -->
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>SisPen Admin</span>
+                </div>
+                <div class="user-info">
+                    <div class="user-name">{{ Auth::user()->name }}</div>
+                    <div class="user-details">{{ ucfirst(Auth::user()->role) }}</div>
+                    <button class="logout-btn" onclick="document.getElementById('logout-form').submit();">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Keluar
+                    </button>
+                </div>
+            </div>
+
+            <ul class="sidebar-menu">
+                <div class="menu-section">
+                    <div class="section-title">Menu Utama</div>
+                </div>
+                <li>
+                    <a href="{{ route('dashboard') }}" class="menu-item">
+                        <div class="menu-icon">
+                            <i class="fas fa-tachometer-alt"></i>
+                        </div>
+                        <div class="menu-text">Dashboard</div>
+                    </a>
+                </li>
+
+                <div class="menu-section">
+                    <div class="section-title">Manajemen Data</div>
+                </div>
+                <li>
+                    <a href="{{ route('admin.dosen.index') }}" class="menu-item">
+                        <div class="menu-icon">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                        </div>
+                        <div class="menu-text">Dosen</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('admin.matakuliah.index') }}" class="menu-item">
+                        <div class="menu-icon">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <div class="menu-text">Mata Kuliah</div>
+                    </a>
+                </li>
+                <li>
+                    <!-- Set menu ini 'active' karena kita berada di dalam section 'penugasan' -->
+                    <a href="{{ route('admin.penugasan.index') }}" class="menu-item active">
+                        <div class="menu-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="menu-text">Penugasan Mengajar</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('admin.ruangan.index') }}" class="menu-item">
+                        <div class="menu-icon">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <div class="menu-text">Ruangan</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="menu-item">
+                        <div class="menu-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="menu-text">Mahasiswa</div>
+                    </a>
+                </li>
+
+                <div class="menu-section">
+                    <div class="section-title">Penjadwalan</div>
+                </div>
+                <li>
+                    <a href="#" class="menu-item">
+                        <div class="menu-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="menu-text">Pra-Penjadwalan</div>
+                        <div class="menu-badge new">NEW</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="menu-item">
+                        <div class="menu-icon">
+                            <i class="fas fa-calendar"></i>
+                        </div>
+                        <div class="menu-text">Jadwal Kuliah</div>
+                        <div class="menu-badge">12</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="menu-item">
+                        <div class="menu-icon">
+                            <i class="fas fa-sync-alt"></i>
+                        </div>
+                        <div class="menu-text">Generate Jadwal</div>
+                    </a>
+                </li>
+
+                <div class="menu-section">
+                    <div class="section-title">Lainnya</div>
+                </div>
+                <li>
+                    <a href="#" class="menu-item">
+                        <div class="menu-icon">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <div class="menu-text">Laporan</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="menu-item">
+                        <div class="menu-icon">
+                            <i class="fas fa-cog"></i>
+                        </div>
+                        <div class="menu-text">Pengaturan</div>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Banner Judul Halaman -->
+            <div class="welcome-banner">
+                <div class="welcome-title">
+                    <i class="fas fa-edit"></i>
+                    Edit Penugasan Mengajar
+                </div>
+                <div class="welcome-text">Perbarui data penugasan untuk AI generator.</div>
+            </div>
+
+            <!-- Tampilkan Error Validasi -->
+            @if ($errors->any())
+                <div class="alert alert-error">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <strong>Oops! Terjadi kesalahan:</strong>
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            <!-- Form Container -->
+            <div class="form-container">
+                <form action="{{ route('admin.penugasan.update', $penugasan->id) }}" method="POST">
+                    @csrf
+                    @method('PATCH') <!-- Method spoofing untuk UPDATE -->
+
+                    <!-- Mata Kuliah (Dropdown) -->
+                    <div class="form-group">
+                        <label for="mata_kuliah_id" class="form-label">Mata Kuliah</label>
+                        <select id="mata_kuliah_id" name="mata_kuliah_id" class="form-control @error('mata_kuliah_id') is-invalid @enderror" required>
+                            <option value="">-- Pilih Mata Kuliah --</option>
+                            @foreach ($mataKuliahs as $matkul)
+                                <option value="{{ $matkul->id }}" {{ old('mata_kuliah_id', $penugasan->mata_kuliah_id) == $matkul->id ? 'selected' : '' }}>
+                                    {{ $matkul->nama_mata_kuliah }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('mata_kuliah_id')
+                            <div class="invalid-feedback"><i class="fas fa-exclamation-circle"></i> {{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <!-- Dosen Pengampu (Dropdown) -->
+                    <div class="form-group">
+                        <label for="dosen_id" class="form-label">Dosen Pengampu</label>
+                        <select id="dosen_id" name="dosen_id" class="form-control @error('dosen_id') is-invalid @enderror" required>
+                            <option value="">-- Pilih Dosen --</option>
+                            @foreach ($dosens as $dosen)
+                                <option value="{{ $dosen->id }}" {{ old('dosen_id', $penugasan->dosen_id) == $dosen->id ? 'selected' : '' }}>
+                                    {{ $dosen->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('dosen_id')
+                            <div class="invalid-feedback"><i class="fas fa-exclamation-circle"></i> {{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <!-- SKS (Angka) -->
+                    <div class="form-group">
+                        <label for="sks" class="form-label">SKS</label>
+                        <input type="number" id="sks" name="sks" class="form-control @error('sks') is-invalid @enderror" value="{{ old('sks', $penugasan->sks) }}" min="1" max="10" required>
+                        @error('sks')
+                            <div class="invalid-feedback"><i class="fas fa-exclamation-circle"></i> {{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <!-- Kelas (Teks) -->
+                    <div class="form-group">
+                        <label for="kelas" class="form-label">Kelas</label>
+                        <input type="text" id="kelas" name="kelas" class="form-control @error('kelas') is-invalid @enderror" value="{{ old('kelas', $penugasan->kelas) }}" placeholder="Contoh: TI-3A" required>
+                        @error('kelas')
+                            <div class="invalid-feedback"><i class="fas fa-exclamation-circle"></i> {{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <!-- Semester (Dropdown) -->
+                    <div class="form-group">
+                        <label for="semester" class="form-label">Semester</label>
+                        <select id="semester" name="semester" class="form-control @error('semester') is-invalid @enderror" required>
+                            <option value="">-- Pilih Semester --</option>
+                            <option value="ganjil" {{ old('semester', $penugasan->semester) == 'ganjil' ? 'selected' : '' }}>Ganjil</option>
+                            <option value="genap" {{ old('semester', $penugasan->semester) == 'genap' ? 'selected' : '' }}>Genap</option>
+                        </select>
+                        @error('semester')
+                            <div class="invalid-feedback"><i class="fas fa-exclamation-circle"></i> {{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <!-- Blok Waktu (Dropdown) -->
+                    <div class="form-group">
+                        <label for="time_block" class="form-label">Blok Waktu</label>
+                        <select id="time_block" name="time_block" class="form-control @error('time_block') is-invalid @enderror" required>
+                            <option value="full" {{ old('time_block', $penugasan->time_block) == 'full' ? 'selected' : '' }}>Full Semester</option>
+                            <option value="pra-uts" {{ old('time_block', $penugasan->time_block) == 'pra-uts' ? 'selected' : '' }}>Pra-UTS</option>
+                            <option value="pasca-uts" {{ old('time_block', $penugasan->time_block) == 'pasca-uts' ? 'selected' : '' }}>Pasca-UTS</option>
+                        </select>
+                        @error('time_block')
+                            <div class="invalid-feedback"><i class="fas fa-exclamation-circle"></i> {{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <!-- Tombol Aksi -->
+                    <div class="form-actions">
+                        <a href="{{ route('admin.penugasan.index') }}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i>
+                            Kembali
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i>
+                            Simpan Perubahan
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

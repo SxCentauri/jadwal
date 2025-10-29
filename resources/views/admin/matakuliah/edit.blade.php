@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Admin - Sistem Penjadwalan Kuliah</title>
+    <title>Admin - Edit Mata Kuliah</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        /* Semua style CSS tetap sama seperti sebelumnya */
         * {
             margin: 0;
             padding: 0;
@@ -230,25 +229,6 @@
             overflow-y: auto;
         }
 
-        .page-header {
-            margin-bottom: 30px;
-        }
-
-        .page-title {
-            font-size: 32px;
-            font-weight: 700;
-            color: var(--dark);
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .page-subtitle {
-            color: var(--gray);
-            font-size: 16px;
-        }
-
         /* Welcome Banner */
         .welcome-banner {
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
@@ -263,47 +243,14 @@
             font-size: 24px;
             font-weight: 600;
             margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
         .welcome-text {
             opacity: 0.9;
             font-size: 14px;
-        }
-
-        /* Stats Grid */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .stat-card {
-            background: white;
-            border-radius: 16px;
-            padding: 24px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            border: 1px solid var(--border);
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
-        }
-
-        .stat-value {
-            font-size: 32px;
-            font-weight: 700;
-            color: var(--dark);
-            margin-bottom: 8px;
-        }
-
-        .stat-label {
-            color: var(--gray);
-            font-size: 14px;
-            font-weight: 500;
         }
 
         /* Content Section */
@@ -336,122 +283,145 @@
             color: var(--primary);
         }
 
-        .view-all {
-            color: var(--primary);
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            transition: all 0.3s ease;
-        }
-
-        .view-all:hover {
-            gap: 8px;
-            text-decoration: underline;
-        }
-
-        /* Activity List */
-        .activity-list {
-            list-style: none;
-        }
-
-        .activity-item {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            padding: 16px 0;
-            border-bottom: 1px solid var(--border);
-            transition: all 0.3s ease;
-        }
-
-        .activity-item:hover {
-            background: var(--gray-light);
-            margin: 0 -20px;
-            padding: 16px 20px;
-            border-radius: 8px;
-        }
-
-        .activity-item:last-child {
-            border-bottom: none;
-        }
-
-        .activity-icon {
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            background: var(--gray-light);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            color: var(--primary);
-        }
-
-        .activity-content {
-            flex: 1;
-        }
-
-        .activity-text {
-            color: var(--dark);
-            margin-bottom: 4px;
-            font-weight: 500;
-        }
-
-        .activity-time {
-            font-size: 13px;
-            color: var(--gray);
-        }
-
-        /* Quick Actions */
-        .actions-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 16px;
-        }
-
-        .action-btn {
+        /* Form Styles */
+        .form-container {
             background: white;
-            border: 2px solid var(--border);
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            color: inherit;
+            border-radius: 16px;
+            padding: 28px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid var(--border);
+            max-width: 600px;
+            margin: 0 auto;
         }
 
-        .action-btn:hover {
-            border-color: var(--primary);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.15);
+        .form-group {
+            margin-bottom: 24px;
         }
 
-        .action-icon {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            margin: 0 auto 12px;
-            font-size: 20px;
-        }
-
-        .action-label {
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
             font-weight: 600;
             color: var(--dark);
             font-size: 14px;
         }
 
-        .action-desc {
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        select.form-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 12px center;
+            background-repeat: no-repeat;
+            background-size: 16px;
+            padding-right: 40px;
+        }
+
+        .form-text {
             font-size: 12px;
             color: var(--gray);
             margin-top: 6px;
+        }
+
+        /* Validation Error */
+        .invalid-feedback {
+            color: var(--danger);
+            font-size: 12px;
+            margin-top: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .form-control.is-invalid {
+            border-color: var(--danger);
+        }
+
+        .form-control.is-invalid:focus {
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+        }
+
+        /* Form Buttons */
+        .form-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 32px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--gray-light);
+            color: var(--dark);
+            border: 2px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--border);
+            transform: translateY(-2px);
+        }
+
+        /* Alerts */
+        .alert {
+            padding: 16px 20px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            font-weight: 500;
+            border: 1px solid transparent;
+        }
+
+        .alert-danger {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+            border-color: rgba(239, 68, 68, 0.2);
+        }
+
+        .alert-danger ul {
+            padding-left: 20px;
+            margin-top: 8px;
+        }
+
+        .alert-danger li {
+            margin-bottom: 4px;
         }
 
         /* Responsive */
@@ -471,10 +441,6 @@
                 height: auto;
             }
 
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-
             .main-content {
                 padding: 20px;
             }
@@ -483,9 +449,13 @@
                 position: relative;
             }
 
-            .activity-item:hover {
-                margin: 0 -10px;
-                padding: 16px 10px;
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
             }
         }
     </style>
@@ -519,7 +489,7 @@
                     <div class="section-title">Menu Utama</div>
                 </div>
                 <li>
-                    <a href="{{ route('dashboard') }}" class="menu-item active">
+                    <a href="{{ route('dashboard') }}" class="menu-item">
                         <div class="menu-icon">
                             <i class="fas fa-tachometer-alt"></i>
                         </div>
@@ -539,7 +509,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('admin.matakuliah.index') }}" class="menu-item">
+                    <a href="{{ route('admin.matakuliah.index') }}" class="menu-item active">
                         <div class="menu-icon">
                             <i class="fas fa-book"></i>
                         </div>
@@ -627,156 +597,63 @@
         <main class="main-content">
             <!-- Welcome Banner -->
             <div class="welcome-banner">
-                <div class="welcome-title">Selamat Datang, {{ Auth::user()->name }}! 👋</div>
-                <div class="welcome-text" id="current-time"></div>
+                <div class="welcome-title">
+                    <i class="fas fa-edit"></i>
+                    Edit Mata Kuliah
+                </div>
+                <div class="welcome-text">Perbarui informasi mata kuliah dan data pembelajaran</div>
             </div>
 
-            <!-- Stats Grid -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-value">1,248</div>
-                    <div class="stat-label">Total Mahasiswa</div>
+            <!-- Tampilkan Error Validasi -->
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <strong>Oops! Terjadi kesalahan:</strong>
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-value">48</div>
-                    <div class="stat-label">Total Dosen</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value">86</div>
-                    <div class="stat-label">Mata Kuliah</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value">12</div>
-                    <div class="stat-label">Konflik Jadwal</div>
-                </div>
-            </div>
+            @endif
 
-            <!-- Recent Activity -->
-            <div class="content-section">
-                <div class="section-header">
-                    <h2 class="section-title">
-                        <i class="fas fa-history"></i>
-                        Aktivitas Terbaru
-                    </h2>
-                    <a href="#" class="view-all">
-                        Lihat Semua
-                        <i class="fas fa-chevron-right"></i>
-                    </a>
-                </div>
-                <ul class="activity-list">
-                    <li class="activity-item">
-                        <div class="activity-icon">
-                            <i class="fas fa-plus"></i>
-                        </div>
-                        <div class="activity-content">
-                            <div class="activity-text">Jadwal baru ditambahkan untuk semester ganjil 2024</div>
-                            <div class="activity-time">2 jam yang lalu</div>
-                        </div>
-                    </li>
-                    <li class="activity-item">
-                        <div class="activity-icon">
-                            <i class="fas fa-user-plus"></i>
-                        </div>
-                        <div class="activity-content">
-                            <div class="activity-text">Dr. Ahmad ditambahkan sebagai dosen pengampu</div>
-                            <div class="activity-time">5 jam yang lalu</div>
-                        </div>
-                    </li>
-                    <li class="activity-item">
-                        <div class="activity-icon">
-                            <i class="fas fa-exclamation-circle"></i>
-                        </div>
-                        <div class="activity-content">
-                            <div class="activity-text">Konflik jadwal terdeteksi di ruangan A101</div>
-                            <div class="activity-time">1 hari yang lalu</div>
-                        </div>
-                    </li>
-                    <li class="activity-item">
-                        <div class="activity-icon">
-                            <i class="fas fa-edit"></i>
-                        </div>
-                        <div class="activity-content">
-                            <div class="activity-text">Mata kuliah Kecerdasan Buatan diperbarui</div>
-                            <div class="activity-time">2 hari yang lalu</div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
+            <!-- Form Container -->
+            <div class="form-container">
+                <form action="{{ route('admin.matakuliah.update', $matakuliah->id) }}" method="POST">
+                    @csrf
+                    @method('PATCH')
 
-            <!-- Quick Actions -->
-            <div class="content-section">
-                <div class="section-header">
-                    <h2 class="section-title">
-                        <i class="fas fa-bolt"></i>
-                        Aksi Cepat
-                    </h2>
-                </div>
-                <div class="actions-grid">
-                    <a href="#" class="action-btn">
-                        <div class="action-icon">
-                            <i class="fas fa-clock"></i>
-                        </div>
-                        <div class="action-label">Kelola Pra-Penjadwalan</div>
-                        <div class="action-desc">Kelola preferensi jadwal dosen</div>
-                    </a>
-                    <a href="#" class="action-btn">
-                        <div class="action-icon">
-                            <i class="fas fa-plus"></i>
-                        </div>
-                        <div class="action-label">Tambah Jadwal</div>
-                        <div class="action-desc">Buat jadwal kuliah baru</div>
-                    </a>
-                    <a href="#" class="action-btn">
-                        <div class="action-icon">
-                            <i class="fas fa-chalkboard-teacher"></i>
-                        </div>
-                        <div class="action-label">Kelola Dosen</div>
-                        <div class="action-desc">Kelola data dosen</div>
-                    </a>
-                    <a href="#" class="action-btn">
-                        <div class="action-icon">
-                            <i class="fas fa-chart-bar"></i>
-                        </div>
-                        <div class="action-label">Laporan</div>
-                        <div class="action-desc">Lihat laporan sistem</div>
-                    </a>
-                </div>
+                    <!-- Nama Mata Kuliah -->
+                    <div class="form-group">
+                        <label for="nama_mata_kuliah" class="form-label">Nama Mata Kuliah</label>
+                        <input type="text"
+                               id="nama_mata_kuliah"
+                               name="nama_mata_kuliah"
+                               class="form-control @error('nama_mata_kuliah') is-invalid @enderror"
+                               value="{{ old('nama_mata_kuliah', $matakuliah->nama_mata_kuliah) }}"
+                               required>
+                        @error('nama_mata_kuliah')
+                            <div class="invalid-feedback">
+                                <i class="fas fa-exclamation-circle"></i>
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+
+                    <!-- Tombol Aksi -->
+                    <div class="form-actions">
+                        <a href="{{ route('admin.matakuliah.index') }}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i>
+                            Kembali
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i>
+                            Simpan Perubahan
+                        </button>
+                    </div>
+                </form>
             </div>
         </main>
     </div>
-
-    <script>
-        // Update waktu real-time
-        function updateCurrentTime() {
-            const now = new Date();
-            const options = {
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit'
-            };
-            document.getElementById('current-time').textContent =
-                now.toLocaleDateString('id-ID', options);
-        }
-
-        // Update waktu setiap menit
-        setInterval(updateCurrentTime, 60000);
-        updateCurrentTime();
-
-        // Update waktu aktivitas
-        function updateActivityTime() {
-            const now = new Date();
-            const timeElement = document.querySelector('.activity-time');
-            if (timeElement) {
-                document.querySelectorAll('.activity-time')[0].textContent =
-                    now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) + ' yang lalu';
-            }
-        }
-
-        setInterval(updateActivityTime, 60000);
-        updateActivityTime();
-    </script>
 </body>
 </html>
