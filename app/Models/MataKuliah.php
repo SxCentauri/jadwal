@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Models\PenugasanMengajar;
 
 class MataKuliah extends Model
 {
@@ -16,9 +17,9 @@ class MataKuliah extends Model
 
     public $timestamps = false;
 
-    public function teachingAssignments(): HasMany
+    public function penugasanMengajar(): HasMany
     {
-        return $this->hasMany(TeachingAssignment::class, 'mata_kuliah_id');
+        return $this->hasMany(PenugasanMengajar::class, 'mata_kuliah_id');
     }
 }
 

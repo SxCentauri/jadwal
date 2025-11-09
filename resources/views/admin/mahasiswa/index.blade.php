@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manajemen Ruangan - Admin</title>
+    <title>Manajemen Mahasiswa - Admin</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -669,7 +669,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('admin.ruangan.index') }}" class="menu-item active">
+                    <a href="{{ route('admin.ruangan.index') }}" class="menu-item">
                         <div class="menu-icon">
                             <i class="fas fa-door-open"></i>
                         </div>
@@ -677,9 +677,9 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('admin.mahasiswa.index') }}" class="menu-item">
+                    <a href="{{ route('admin.mahasiswa.index') }}" class="menu-item active">
                         <div class="menu-icon">
-                            <i class="fas fa-users"></i>
+                            <i class="fas fa-user-graduate"></i>
                         </div>
                         <div class="menu-text">Mahasiswa</div>
                     </a>
@@ -742,10 +742,10 @@
             <!-- Welcome Banner -->
             <div class="welcome-banner">
                 <div class="welcome-title">
-                    <i class="fas fa-door-open"></i>
-                    Manajemen Ruangan
+                    <i class="fas fa-user-graduate"></i>
+                    Manajemen Mahasiswa
                 </div>
-                <div class="welcome-text">Kelola data ruangan untuk proses penjadwalan</div>
+                <div class="welcome-text">Kelola data mahasiswa untuk proses akademik</div>
             </div>
 
             <!-- Pesan Sukses -->
@@ -756,16 +756,16 @@
                 </div>
             @endif
 
-            <!-- Konten Utama (Tabel Ruangan) -->
+            <!-- Konten Utama (Tabel Mahasiswa) -->
             <div class="content-section">
                 <div class="section-header">
                     <h2 class="section-title">
                         <i class="fas fa-list"></i>
-                        Daftar Ruangan
+                        Daftar Mahasiswa
                     </h2>
-                    <a href="{{ route('admin.ruangan.create') }}" class="btn-primary">
+                    <a href="{{ route('admin.mahasiswa.create') }}" class="btn-primary">
                         <i class="fas fa-plus"></i>
-                        Tambah Ruangan
+                        Tambah Mahasiswa
                     </a>
                 </div>
 
@@ -773,21 +773,23 @@
                     <table class="data-table">
                         <thead>
                             <tr>
-                                <th>Nama Ruangan</th>
+                                <th>Nama</th>
+                                <th>Email</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($ruangans as $ruangan)
+                            @forelse ($mahasiswas as $mahasiswa)
                                 <tr>
-                                    <td>{{ $ruangan->nama_ruangan }}</td>
+                                    <td>{{ $mahasiswa->name }}</td>
+                                    <td>{{ $mahasiswa->email }}</td>
                                     <td class="action-buttons">
-                                        <a href="{{ route('admin.ruangan.edit', $ruangan->id) }}" class="btn-edit" title="Edit">
+                                        <a href="{{ route('admin.mahasiswa.edit', $mahasiswa->id) }}" class="btn-edit" title="Edit">
                                             <i class="fas fa-edit"></i>
                                             Edit
                                         </a>
                                         <button type="button" class="btn-delete" title="Hapus"
-                                            onclick="showDeleteConfirmation('{{ $ruangan->nama_ruangan }}', '{{ route('admin.ruangan.destroy', $ruangan->id) }}')">
+                                            onclick="showDeleteConfirmation('{{ $mahasiswa->name }}', '{{ route('admin.mahasiswa.destroy', $mahasiswa->id) }}')">
                                             <i class="fas fa-trash"></i>
                                             Hapus
                                         </button>
@@ -795,9 +797,9 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="2" class="empty-state">
-                                        <i class="fas fa-door-open"></i>
-                                        <div>Belum ada data ruangan</div>
+                                    <td colspan="3" class="empty-state">
+                                        <i class="fas fa-user-graduate"></i>
+                                        <div>Belum ada data mahasiswa</div>
                                     </td>
                                 </tr>
                             @endforelse
@@ -807,7 +809,7 @@
 
                 <!-- Pagination -->
                 <div class="pagination-container">
-                    {{ $ruangans->links() }}
+                    {{ $mahasiswas->links() }}
                 </div>
             </div>
         </main>
@@ -820,7 +822,7 @@
                 <i class="fas fa-exclamation-triangle"></i>
             </div>
             <h3 class="modal-title">Konfirmasi Penghapusan</h3>
-            <p class="modal-message" id="modalMessage">Apakah Anda yakin ingin menghapus data ruangan ini? Tindakan ini tidak dapat dibatalkan.</p>
+            <p class="modal-message" id="modalMessage">Apakah Anda yakin ingin menghapus data mahasiswa ini? Tindakan ini tidak dapat dibatalkan.</p>
             <div class="modal-actions">
                 <button type="button" class="btn-cancel" id="cancelDelete">Batal</button>
                 <button type="button" class="btn-confirm" id="confirmDelete">Ya, Hapus</button>
@@ -831,11 +833,11 @@
     <script>
         let currentDeleteFormUrl = null;
 
-        function showDeleteConfirmation(ruanganName, deleteUrl) {
+        function showDeleteConfirmation(mahasiswaName, deleteUrl) {
             const modal = document.getElementById('deleteModal');
             const modalMessage = document.getElementById('modalMessage');
 
-            modalMessage.textContent = `Apakah Anda yakin ingin menghapus ruangan "${ruanganName}"? Tindakan ini tidak dapat dibatalkan.`;
+            modalMessage.textContent = `Apakah Anda yakin ingin menghapus mahasiswa "${mahasiswaName}"? Akun ini tidak dapat dipulihkan.`;
             currentDeleteFormUrl = deleteUrl;
             modal.classList.add('active');
         }

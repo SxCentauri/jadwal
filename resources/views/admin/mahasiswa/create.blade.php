@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manajemen Ruangan - Admin</title>
+    <title>Tambah Mahasiswa - Admin</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -556,6 +556,143 @@
             background: #dc2626;
         }
 
+        /* Form Styles */
+        .form-container {
+            background: white;
+            border-radius: 16px;
+            padding: 28px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid var(--border);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 14px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        select.form-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 12px center;
+            background-repeat: no-repeat;
+            background-size: 16px;
+            padding-right: 40px;
+        }
+
+        .form-text {
+            font-size: 12px;
+            color: var(--gray);
+            margin-top: 6px;
+        }
+
+        /* Validation Error */
+        .invalid-feedback {
+            color: var(--danger);
+            font-size: 12px;
+            margin-top: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .form-control.is-invalid {
+            border-color: var(--danger);
+        }
+
+        .form-control.is-invalid:focus {
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+        }
+
+        /* Form Buttons */
+        .form-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 32px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .btn-secondary {
+            background: var(--gray-light);
+            color: var(--dark);
+            border: 2px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--border);
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+        }
+
+        /* Alert Error */
+        .alert-danger {
+            padding: 16px 20px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            font-weight: 500;
+        }
+
+        .alert-danger ul {
+            padding-left: 20px;
+            margin-top: 8px;
+        }
+
+        .alert-danger li {
+            margin-bottom: 4px;
+        }
+
         /* Responsive */
         @media (max-width: 1024px) {
             .sidebar {
@@ -599,6 +736,15 @@
             .btn-cancel,
             .btn-confirm {
                 width: 100%;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
             }
         }
     </style>
@@ -669,7 +815,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('admin.ruangan.index') }}" class="menu-item active">
+                    <a href="{{ route('admin.ruangan.index') }}" class="menu-item">
                         <div class="menu-icon">
                             <i class="fas fa-door-open"></i>
                         </div>
@@ -677,9 +823,9 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('admin.mahasiswa.index') }}" class="menu-item">
+                    <a href="{{ route('admin.mahasiswa.index') }}" class="menu-item active">
                         <div class="menu-icon">
-                            <i class="fas fa-users"></i>
+                            <i class="fas fa-user-graduate"></i>
                         </div>
                         <div class="menu-text">Mahasiswa</div>
                     </a>
@@ -742,147 +888,106 @@
             <!-- Welcome Banner -->
             <div class="welcome-banner">
                 <div class="welcome-title">
-                    <i class="fas fa-door-open"></i>
-                    Manajemen Ruangan
+                    <i class="fas fa-user-plus"></i>
+                    Tambah Mahasiswa
                 </div>
-                <div class="welcome-text">Kelola data ruangan untuk proses penjadwalan</div>
+                <div class="welcome-text">Tambahkan akun mahasiswa baru ke dalam sistem</div>
             </div>
 
-            <!-- Pesan Sukses -->
-            @if (session('success'))
-                <div class="alert alert-success">
-                    <i class="fas fa-check-circle"></i>
-                    {{ session('success') }}
+            <!-- Tampilkan Error Validasi -->
+            @if ($errors->any())
+                <div class="alert alert-error">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <strong>Oops! Terjadi kesalahan:</strong>
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
                 </div>
             @endif
 
-            <!-- Konten Utama (Tabel Ruangan) -->
-            <div class="content-section">
-                <div class="section-header">
-                    <h2 class="section-title">
-                        <i class="fas fa-list"></i>
-                        Daftar Ruangan
-                    </h2>
-                    <a href="{{ route('admin.ruangan.create') }}" class="btn-primary">
-                        <i class="fas fa-plus"></i>
-                        Tambah Ruangan
-                    </a>
-                </div>
+            <!-- Form Container -->
+            <div class="form-container">
+                <form action="{{ route('admin.mahasiswa.store') }}" method="POST">
+                    @csrf
 
-                <div class="table-responsive">
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>Nama Ruangan</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse ($ruangans as $ruangan)
-                                <tr>
-                                    <td>{{ $ruangan->nama_ruangan }}</td>
-                                    <td class="action-buttons">
-                                        <a href="{{ route('admin.ruangan.edit', $ruangan->id) }}" class="btn-edit" title="Edit">
-                                            <i class="fas fa-edit"></i>
-                                            Edit
-                                        </a>
-                                        <button type="button" class="btn-delete" title="Hapus"
-                                            onclick="showDeleteConfirmation('{{ $ruangan->nama_ruangan }}', '{{ route('admin.ruangan.destroy', $ruangan->id) }}')">
-                                            <i class="fas fa-trash"></i>
-                                            Hapus
-                                        </button>
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="2" class="empty-state">
-                                        <i class="fas fa-door-open"></i>
-                                        <div>Belum ada data ruangan</div>
-                                    </td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div>
+                    <!-- Nama Mahasiswa -->
+                    <div class="form-group">
+                        <label for="name" class="form-label">Nama Lengkap</label>
+                        <input type="text"
+                               id="name"
+                               name="name"
+                               class="form-control @error('name') is-invalid @enderror"
+                               value="{{ old('name') }}"
+                               placeholder="Masukkan nama mahasiswa"
+                               required>
+                        @error('name')
+                            <div class="invalid-feedback">
+                                <i class="fas fa-exclamation-circle"></i>
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
 
-                <!-- Pagination -->
-                <div class="pagination-container">
-                    {{ $ruangans->links() }}
-                </div>
+                    <!-- Email Mahasiswa -->
+                    <div class="form-group">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email"
+                               id="email"
+                               name="email"
+                               class="form-control @error('email') is-invalid @enderror"
+                               value="{{ old('email') }}"
+                               placeholder="Contoh: mahasiswa@email.com"
+                               required>
+                        @error('email')
+                            <div class="invalid-feedback">
+                                <i class="fas fa-exclamation-circle"></i>
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+                    
+                    <!-- Password -->
+                    <div class="form-group">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password"
+                               id="password"
+                               name="password"
+                               class="form-control @error('password') is-invalid @enderror"
+                               required>
+                        @error('password')
+                            <div class="invalid-feedback">
+                                <i class="fas fa-exclamation-circle"></i>
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+
+                    <!-- Konfirmasi Password -->
+                    <div class="form-group">
+                        <label for="password_confirmation" class="form-label">Konfirmasi Password</label>
+                        <input type="password"
+                               id="password_confirmation"
+                               name="password_confirmation"
+                               class="form-control"
+                               required>
+                    </div>
+
+                    <!-- Tombol Aksi -->
+                    <div class="form-actions">
+                        <a href="{{ route('admin.mahasiswa.index') }}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i>
+                            Kembali
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i>
+                            Simpan Data
+                        </button>
+                    </div>
+                </form>
             </div>
         </main>
     </div>
-
-    <!-- Modal Konfirmasi Hapus -->
-    <div class="confirmation-modal" id="deleteModal">
-        <div class="modal-content">
-            <div class="modal-icon">
-                <i class="fas fa-exclamation-triangle"></i>
-            </div>
-            <h3 class="modal-title">Konfirmasi Penghapusan</h3>
-            <p class="modal-message" id="modalMessage">Apakah Anda yakin ingin menghapus data ruangan ini? Tindakan ini tidak dapat dibatalkan.</p>
-            <div class="modal-actions">
-                <button type="button" class="btn-cancel" id="cancelDelete">Batal</button>
-                <button type="button" class="btn-confirm" id="confirmDelete">Ya, Hapus</button>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        let currentDeleteFormUrl = null;
-
-        function showDeleteConfirmation(ruanganName, deleteUrl) {
-            const modal = document.getElementById('deleteModal');
-            const modalMessage = document.getElementById('modalMessage');
-
-            modalMessage.textContent = `Apakah Anda yakin ingin menghapus ruangan "${ruanganName}"? Tindakan ini tidak dapat dibatalkan.`;
-            currentDeleteFormUrl = deleteUrl;
-            modal.classList.add('active');
-        }
-
-        function hideDeleteConfirmation() {
-            const modal = document.getElementById('deleteModal');
-            modal.classList.remove('active');
-            currentDeleteFormUrl = null;
-        }
-
-        function confirmDelete() {
-            if (currentDeleteFormUrl) {
-                const form = document.createElement('form');
-                form.method = 'POST';
-                form.action = currentDeleteFormUrl;
-
-                const csrfToken = document.createElement('input');
-                csrfToken.type = 'hidden';
-                csrfToken.name = '_token';
-                csrfToken.value = '{{ csrf_token() }}';
-                form.appendChild(csrfToken);
-
-                const methodField = document.createElement('input');
-                methodField.type = 'hidden';
-                methodField.name = '_method';
-                methodField.value = 'DELETE';
-                form.appendChild(methodField);
-
-                document.body.appendChild(form);
-                form.submit();
-            }
-        }
-
-        document.getElementById('cancelDelete').addEventListener('click', hideDeleteConfirmation);
-        document.getElementById('confirmDelete').addEventListener('click', confirmDelete);
-
-        document.getElementById('deleteModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                hideDeleteConfirmation();
-            }
-        });
-
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                hideDeleteConfirmation();
-            }
-        });
-    </script>
 </body>
 </html>

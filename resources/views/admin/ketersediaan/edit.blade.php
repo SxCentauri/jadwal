@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manajemen Ruangan - Admin</title>
+    <title>Edit Ketersediaan Dosen - Admin</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -28,6 +28,10 @@
             --gray: #64748b;
             --gray-light: #f1f5f9;
             --border: #e2e8f0;
+            --available-bg: #d3f9d8;
+            --available-color: #2b8a3e;
+            --unavailable-bg: #ffe3e3;
+            --unavailable-color: #c92a2a;
         }
 
         body {
@@ -96,6 +100,7 @@
             font-size: 13px;
             opacity: 0.9;
             margin-bottom: 12px;
+            text-transform: capitalize;
         }
 
         .logout-btn {
@@ -175,21 +180,6 @@
             font-size: 14px;
         }
 
-        .menu-badge {
-            background: var(--danger);
-            color: white;
-            padding: 4px 8px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: 600;
-            min-width: 20px;
-            text-align: center;
-        }
-
-        .menu-badge.new {
-            background: var(--success);
-        }
-
         .sidebar-footer {
             position: absolute;
             bottom: 0;
@@ -231,7 +221,7 @@
 
         /* Welcome Banner */
         .welcome-banner {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            background: linear-gradient(135deg, var(--warning), #f7b239);
             color: white;
             padding: 24px;
             border-radius: 16px;
@@ -283,19 +273,148 @@
             color: var(--primary);
         }
 
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
-            border: none;
+        .dosen-name {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        /* Grid Ketersediaan */
+        .availability-grid {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+            table-layout: fixed;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .availability-grid th,
+        .availability-grid td {
+            border: 1px solid var(--border);
+            padding: 0;
+            text-align: center;
+            vertical-align: middle;
+            height: 80px;
+        }
+
+        .availability-grid th {
+            background-color: var(--gray-light);
+            font-weight: 600;
+            font-size: 14px;
+            padding: 12px;
+            color: var(--dark);
+        }
+
+        .time-slot-header {
+            font-size: 12px;
+            writing-mode: vertical-rl;
+            transform: rotate(180deg);
+            padding: 8px;
+            width: 40px;
+            font-weight: 500;
+        }
+
+        /* Slot Ketersediaan */
+        .slot {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 12px;
+            font-weight: 500;
+            box-sizing: border-box;
+            padding: 8px;
+            user-select: none;
+            border-radius: 0;
+        }
+
+        .slot-available {
+            background-color: var(--available-bg);
+            color: var(--available-color);
+        }
+
+        .slot-unavailable {
+            background-color: var(--unavailable-bg);
+            color: var(--unavailable-color);
+            text-decoration: line-through;
+        }
+
+        .slot:hover {
+            transform: scale(0.95);
+            box-shadow: inset 0 0 0 2px rgba(59, 130, 246, 0.3);
+        }
+
+        /* Checkbox tersembunyi */
+        .slot-checkbox {
+            display: none;
+        }
+
+        /* Keterangan */
+        .legend {
+            display: flex;
+            gap: 24px;
+            margin-top: 24px;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            color: var(--dark);
+        }
+
+        .legend-box {
+            width: 20px;
+            height: 20px;
+            border-radius: 6px;
+            margin-right: 10px;
+            border: 2px solid var(--border);
+        }
+
+        /* Form Actions */
+        .form-actions {
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: flex-end;
+            gap: 16px;
+        }
+
+        .btn {
             padding: 12px 24px;
             border-radius: 12px;
             font-weight: 600;
             cursor: pointer;
+            border: none;
             transition: all 0.3s ease;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
             gap: 8px;
+            font-size: 14px;
+        }
+
+        .btn-secondary {
+            background: var(--gray-light);
+            color: var(--dark);
+            border: 2px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--border);
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
             box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
         }
 
@@ -304,7 +423,7 @@
             box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
         }
 
-        /* Alerts */
+        /* Alert */
         .alert {
             padding: 16px 20px;
             border-radius: 12px;
@@ -325,241 +444,19 @@
             border-color: rgba(239, 68, 68, 0.2);
         }
 
-        /* Table */
-        .table-responsive {
-            overflow-x: auto;
-            border-radius: 12px;
-            border: 1px solid var(--border);
-        }
-
-        .data-table {
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-        }
-
-        .data-table th {
-            background: var(--gray-light);
-            padding: 16px 20px;
-            text-align: left;
-            font-weight: 600;
-            color: var(--dark);
-            border-bottom: 1px solid var(--border);
-        }
-
-        .data-table td {
-            padding: 16px 20px;
-            border-bottom: 1px solid var(--border);
-            color: var(--dark);
-        }
-
-        .data-table tbody tr {
-            transition: all 0.3s ease;
-        }
-
-        .data-table tbody tr:hover {
-            background: var(--gray-light);
-        }
-
-        .data-table tbody tr:last-child td {
-            border-bottom: none;
-        }
-
-        /* Action Buttons */
-        .action-buttons {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-        }
-
-        .btn-edit {
-            background: var(--warning);
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .btn-edit:hover {
-            background: #eab308;
-            transform: translateY(-1px);
-        }
-
-        .btn-delete {
-            background: var(--danger);
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .btn-delete:hover {
-            background: #dc2626;
-            transform: translateY(-1px);
-        }
-
-        /* Pagination */
-        .pagination-container {
-            margin-top: 24px;
-            display: flex;
-            justify-content: center;
-        }
-
-        .pagination {
-            display: flex;
-            gap: 8px;
-            list-style: none;
-            align-items: center;
-        }
-
-        .pagination li a,
-        .pagination li span {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 8px 12px;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            color: var(--dark);
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            min-width: 40px;
-        }
-
-        .pagination li a:hover {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
-        }
-
-        .pagination li.active span {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
-        }
-
-        .pagination li.disabled span {
-            color: var(--gray);
-            background: var(--gray-light);
-            border-color: var(--border);
-        }
-
-        /* Empty State */
-        .empty-state {
-            text-align: center;
-            padding: 40px 20px;
-            color: var(--gray);
-        }
-
-        .empty-state i {
-            font-size: 48px;
-            margin-bottom: 16px;
-            color: var(--border);
-        }
-
-        /* Custom Confirmation Modal */
-        .confirmation-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .confirmation-modal.active {
-            display: flex;
-        }
-
-        .modal-content {
-            background: white;
-            padding: 30px;
-            border-radius: 16px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-            max-width: 400px;
-            width: 90%;
-            text-align: center;
-        }
-
-        .modal-icon {
-            font-size: 48px;
-            color: var(--danger);
-            margin-bottom: 16px;
-        }
-
-        .modal-title {
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 12px;
-            color: var(--dark);
-        }
-
-        .modal-message {
-            color: var(--gray);
-            margin-bottom: 24px;
-            line-height: 1.5;
-        }
-
-        .modal-actions {
-            display: flex;
-            gap: 12px;
-            justify-content: center;
-        }
-
-        .btn-cancel {
-            background: var(--gray-light);
-            color: var(--dark);
-            border: 2px solid var(--border);
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .btn-cancel:hover {
-            background: var(--border);
-        }
-
-        .btn-confirm {
-            background: var(--danger);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .btn-confirm:hover {
-            background: #dc2626;
-        }
-
         /* Responsive */
         @media (max-width: 1024px) {
             .sidebar {
                 width: 260px;
+            }
+            
+            .availability-grid {
+                font-size: 11px;
+            }
+            
+            .slot {
+                font-size: 11px;
+                padding: 4px;
             }
         }
 
@@ -581,24 +478,34 @@
                 position: relative;
             }
 
-            .action-buttons {
-                flex-direction: column;
-                gap: 6px;
+            .availability-grid {
+                font-size: 10px;
+            }
+            
+            .time-slot-header {
+                writing-mode: horizontal-tb;
+                transform: none;
+                padding: 4px;
+                width: auto;
+            }
+            
+            .slot {
+                height: 60px;
+                font-size: 10px;
             }
 
-            .btn-edit,
-            .btn-delete {
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .btn {
                 width: 100%;
                 justify-content: center;
             }
-
-            .modal-actions {
+            
+            .legend {
                 flex-direction: column;
-            }
-
-            .btn-cancel,
-            .btn-confirm {
-                width: 100%;
+                gap: 12px;
             }
         }
     </style>
@@ -669,7 +576,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('admin.ruangan.index') }}" class="menu-item active">
+                    <a href="{{ route('admin.ruangan.index') }}" class="menu-item">
                         <div class="menu-icon">
                             <i class="fas fa-door-open"></i>
                         </div>
@@ -679,7 +586,7 @@
                 <li>
                     <a href="{{ route('admin.mahasiswa.index') }}" class="menu-item">
                         <div class="menu-icon">
-                            <i class="fas fa-users"></i>
+                            <i class="fas fa-user-graduate"></i>
                         </div>
                         <div class="menu-text">Mahasiswa</div>
                     </a>
@@ -694,7 +601,6 @@
                             <i class="fas fa-clock"></i>
                         </div>
                         <div class="menu-text">Pra-Penjadwalan</div>
-                        <div class="menu-badge new">NEW</div>
                     </a>
                 </li>
                 <li>
@@ -703,7 +609,6 @@
                             <i class="fas fa-calendar"></i>
                         </div>
                         <div class="menu-text">Jadwal Kuliah</div>
-                        <div class="menu-badge">12</div>
                     </a>
                 </li>
                 <li>
@@ -712,6 +617,18 @@
                             <i class="fas fa-sync-alt"></i>
                         </div>
                         <div class="menu-text">Generate Jadwal</div>
+                    </a>
+                </li>
+
+                <div class="menu-section">
+                    <div class="section-title">Ketersediaan</div>
+                </div>
+                <li>
+                    <a href="{{ route('admin.ketersediaan.index') }}" class="menu-item active">
+                        <div class="menu-icon">
+                            <i class="fas fa-user-clock"></i>
+                        </div>
+                        <div class="menu-text">Ketersediaan Dosen</div>
                     </a>
                 </li>
 
@@ -742,146 +659,116 @@
             <!-- Welcome Banner -->
             <div class="welcome-banner">
                 <div class="welcome-title">
-                    <i class="fas fa-door-open"></i>
-                    Manajemen Ruangan
+                    <i class="fas fa-user-clock"></i>
+                    Edit Ketersediaan Dosen
                 </div>
-                <div class="welcome-text">Kelola data ruangan untuk proses penjadwalan</div>
+                <div class="welcome-text">Kelola jadwal ketersediaan mengajar dosen</div>
             </div>
 
-            <!-- Pesan Sukses -->
-            @if (session('success'))
-                <div class="alert alert-success">
-                    <i class="fas fa-check-circle"></i>
-                    {{ session('success') }}
-                </div>
-            @endif
-
-            <!-- Konten Utama (Tabel Ruangan) -->
+            <!-- Content Section -->
             <div class="content-section">
                 <div class="section-header">
                     <h2 class="section-title">
-                        <i class="fas fa-list"></i>
-                        Daftar Ruangan
+                        <i class="fas fa-edit"></i>
+                        Edit Ketersediaan: <span class="dosen-name">{{ $dosen->name }}</span>
                     </h2>
-                    <a href="{{ route('admin.ruangan.create') }}" class="btn-primary">
-                        <i class="fas fa-plus"></i>
-                        Tambah Ruangan
-                    </a>
                 </div>
 
-                <div class="table-responsive">
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>Nama Ruangan</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse ($ruangans as $ruangan)
-                                <tr>
-                                    <td>{{ $ruangan->nama_ruangan }}</td>
-                                    <td class="action-buttons">
-                                        <a href="{{ route('admin.ruangan.edit', $ruangan->id) }}" class="btn-edit" title="Edit">
-                                            <i class="fas fa-edit"></i>
-                                            Edit
-                                        </a>
-                                        <button type="button" class="btn-delete" title="Hapus"
-                                            onclick="showDeleteConfirmation('{{ $ruangan->nama_ruangan }}', '{{ route('admin.ruangan.destroy', $ruangan->id) }}')">
-                                            <i class="fas fa-trash"></i>
-                                            Hapus
-                                        </button>
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="2" class="empty-state">
-                                        <i class="fas fa-door-open"></i>
-                                        <div>Belum ada data ruangan</div>
-                                    </td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div>
+                <p style="margin-bottom: 1.5rem; color: var(--gray); font-size: 14px;">
+                    Klik pada slot waktu untuk menandai sebagai "Tidak Tersedia" (Merah). Slot yang "Tersedia" (Hijau) adalah slot di mana dosen BISA mengajar.
+                </p>
 
-                <!-- Pagination -->
-                <div class="pagination-container">
-                    {{ $ruangans->links() }}
-                </div>
+                <form action="{{ route('admin.ketersediaan.update', $dosen->id) }}" method="POST">
+                    @csrf
+                    @method('PUT')
+
+                    <div class="table-responsive">
+                        <table class="availability-grid">
+                            <thead>
+                                <tr>
+                                    <th>Hari</th>
+                                    @foreach ($timeSlots as $time)
+                                        <th class="time-slot-header">{{ $time }}</th>
+                                    @endforeach
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($days as $day)
+                                <tr>
+                                    <th>{{ $day }}</th>
+                                    @foreach ($timeSlots as $time)
+                                        @php
+                                            $slotId = $day . '_' . $time;
+                                            $isUnavailable = in_array($slotId, $unavailableSlots);
+                                        @endphp
+                                        <td class="slot-cell" data-slot-id="{{ $slotId }}">
+                                            <label for="{{ $slotId }}" class="slot {{ $isUnavailable ? 'slot-unavailable' : 'slot-available' }}">
+                                                <input type="checkbox" 
+                                                       name="unavailable_slots[]" 
+                                                       id="{{ $slotId }}" 
+                                                       value="{{ $slotId }}" 
+                                                       class="slot-checkbox"
+                                                       {{ $isUnavailable ? 'checked' : '' }}>
+                                                
+                                                {{ $isUnavailable ? 'Tidak Tersedia' : 'Tersedia' }}
+                                            </label>
+                                        </td>
+                                    @endforeach
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Keterangan -->
+                    <div class="legend">
+                        <div class="legend-item">
+                            <div class="legend-box" style="background-color: var(--available-bg);"></div>
+                            <span>Tersedia (Bisa Mengajar)</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-box" style="background-color: var(--unavailable-bg);"></div>
+                            <span>Tidak Tersedia (Blokir)</span>
+                        </div>
+                    </div>
+
+                    <!-- Tombol Aksi -->
+                    <div class="form-actions">
+                        <a href="{{ route('admin.ketersediaan.index') }}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i>
+                            Kembali
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i>
+                            Simpan Ketersediaan
+                        </button>
+                    </div>
+                </form>
             </div>
         </main>
     </div>
 
-    <!-- Modal Konfirmasi Hapus -->
-    <div class="confirmation-modal" id="deleteModal">
-        <div class="modal-content">
-            <div class="modal-icon">
-                <i class="fas fa-exclamation-triangle"></i>
-            </div>
-            <h3 class="modal-title">Konfirmasi Penghapusan</h3>
-            <p class="modal-message" id="modalMessage">Apakah Anda yakin ingin menghapus data ruangan ini? Tindakan ini tidak dapat dibatalkan.</p>
-            <div class="modal-actions">
-                <button type="button" class="btn-cancel" id="cancelDelete">Batal</button>
-                <button type="button" class="btn-confirm" id="confirmDelete">Ya, Hapus</button>
-            </div>
-        </div>
-    </div>
-
     <script>
-        let currentDeleteFormUrl = null;
+        // Logika untuk toggle klik grid
+        document.querySelectorAll('.slot-cell').forEach(cell => {
+            cell.addEventListener('click', function(e) {
+                if (e.target.type === 'checkbox') return;
 
-        function showDeleteConfirmation(ruanganName, deleteUrl) {
-            const modal = document.getElementById('deleteModal');
-            const modalMessage = document.getElementById('modalMessage');
+                const label = this.querySelector('.slot');
+                const checkbox = this.querySelector('.slot-checkbox');
+                
+                checkbox.checked = !checkbox.checked;
 
-            modalMessage.textContent = `Apakah Anda yakin ingin menghapus ruangan "${ruanganName}"? Tindakan ini tidak dapat dibatalkan.`;
-            currentDeleteFormUrl = deleteUrl;
-            modal.classList.add('active');
-        }
-
-        function hideDeleteConfirmation() {
-            const modal = document.getElementById('deleteModal');
-            modal.classList.remove('active');
-            currentDeleteFormUrl = null;
-        }
-
-        function confirmDelete() {
-            if (currentDeleteFormUrl) {
-                const form = document.createElement('form');
-                form.method = 'POST';
-                form.action = currentDeleteFormUrl;
-
-                const csrfToken = document.createElement('input');
-                csrfToken.type = 'hidden';
-                csrfToken.name = '_token';
-                csrfToken.value = '{{ csrf_token() }}';
-                form.appendChild(csrfToken);
-
-                const methodField = document.createElement('input');
-                methodField.type = 'hidden';
-                methodField.name = '_method';
-                methodField.value = 'DELETE';
-                form.appendChild(methodField);
-
-                document.body.appendChild(form);
-                form.submit();
-            }
-        }
-
-        document.getElementById('cancelDelete').addEventListener('click', hideDeleteConfirmation);
-        document.getElementById('confirmDelete').addEventListener('click', confirmDelete);
-
-        document.getElementById('deleteModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                hideDeleteConfirmation();
-            }
-        });
-
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                hideDeleteConfirmation();
-            }
+                if (checkbox.checked) {
+                    label.classList.remove('slot-available');
+                    label.classList.add('slot-unavailable');
+                    label.childNodes[2].nodeValue = 'Tidak Tersedia';
+                } else {
+                    label.classList.remove('slot-unavailable');
+                    label.classList.add('slot-available');
+                    label.childNodes[2].nodeValue = 'Tersedia';
+                }
+            });
         });
     </script>
 </body>

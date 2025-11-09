@@ -3,10 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manajemen Ruangan - Admin</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Ketersediaan Dosen - Admin</title>
+    <!-- Impor Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
@@ -413,6 +411,26 @@
             transform: translateY(-1px);
         }
 
+        /* Status Badge */
+        .status {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .status-filled {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+        .status-empty {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+        }
+
         /* Pagination */
         .pagination-container {
             margin-top: 24px;
@@ -473,89 +491,6 @@
             color: var(--border);
         }
 
-        /* Custom Confirmation Modal */
-        .confirmation-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .confirmation-modal.active {
-            display: flex;
-        }
-
-        .modal-content {
-            background: white;
-            padding: 30px;
-            border-radius: 16px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-            max-width: 400px;
-            width: 90%;
-            text-align: center;
-        }
-
-        .modal-icon {
-            font-size: 48px;
-            color: var(--danger);
-            margin-bottom: 16px;
-        }
-
-        .modal-title {
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 12px;
-            color: var(--dark);
-        }
-
-        .modal-message {
-            color: var(--gray);
-            margin-bottom: 24px;
-            line-height: 1.5;
-        }
-
-        .modal-actions {
-            display: flex;
-            gap: 12px;
-            justify-content: center;
-        }
-
-        .btn-cancel {
-            background: var(--gray-light);
-            color: var(--dark);
-            border: 2px solid var(--border);
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .btn-cancel:hover {
-            background: var(--border);
-        }
-
-        .btn-confirm {
-            background: var(--danger);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .btn-confirm:hover {
-            background: #dc2626;
-        }
-
         /* Responsive */
         @media (max-width: 1024px) {
             .sidebar {
@@ -590,15 +525,6 @@
             .btn-delete {
                 width: 100%;
                 justify-content: center;
-            }
-
-            .modal-actions {
-                flex-direction: column;
-            }
-
-            .btn-cancel,
-            .btn-confirm {
-                width: 100%;
             }
         }
     </style>
@@ -669,7 +595,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('admin.ruangan.index') }}" class="menu-item active">
+                    <a href="{{ route('admin.ruangan.index') }}" class="menu-item">
                         <div class="menu-icon">
                             <i class="fas fa-door-open"></i>
                         </div>
@@ -679,9 +605,17 @@
                 <li>
                     <a href="{{ route('admin.mahasiswa.index') }}" class="menu-item">
                         <div class="menu-icon">
-                            <i class="fas fa-users"></i>
+                            <i class="fas fa-user-graduate"></i>
                         </div>
                         <div class="menu-text">Mahasiswa</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('admin.ketersediaan.index') }}" class="menu-item active">
+                        <div class="menu-icon">
+                            <i class="fas fa-user-clock"></i>
+                        </div>
+                        <div class="menu-text">Ketersediaan Dosen</div>
                     </a>
                 </li>
 
@@ -742,10 +676,10 @@
             <!-- Welcome Banner -->
             <div class="welcome-banner">
                 <div class="welcome-title">
-                    <i class="fas fa-door-open"></i>
-                    Manajemen Ruangan
+                    <i class="fas fa-user-clock"></i>
+                    Ketersediaan Waktu Dosen
                 </div>
-                <div class="welcome-text">Kelola data ruangan untuk proses penjadwalan</div>
+                <div class="welcome-text">Kelola jadwal ketersediaan waktu mengajar dosen</div>
             </div>
 
             <!-- Pesan Sukses -->
@@ -756,48 +690,50 @@
                 </div>
             @endif
 
-            <!-- Konten Utama (Tabel Ruangan) -->
+            <!-- Konten Utama (Tabel Ketersediaan) -->
             <div class="content-section">
                 <div class="section-header">
                     <h2 class="section-title">
                         <i class="fas fa-list"></i>
-                        Daftar Ruangan
+                        Daftar Ketersediaan Dosen
                     </h2>
-                    <a href="{{ route('admin.ruangan.create') }}" class="btn-primary">
-                        <i class="fas fa-plus"></i>
-                        Tambah Ruangan
-                    </a>
+                    <!-- Tidak ada tombol 'Tambah', Admin hanya bisa 'Edit' -->
                 </div>
 
                 <div class="table-responsive">
                     <table class="data-table">
                         <thead>
                             <tr>
-                                <th>Nama Ruangan</th>
+                                <th>Nama Dosen</th>
+                                <th>Email</th>
+                                <th>Status Ketersediaan</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($ruangans as $ruangan)
+                            @forelse ($dosens as $dosen)
                                 <tr>
-                                    <td>{{ $ruangan->nama_ruangan }}</td>
+                                    <td>{{ $dosen->name }}</td>
+                                    <td>{{ $dosen->email }}</td>
+                                    <td>
+                                        @if($dosen->ketersediaan && !empty($dosen->ketersediaan->unavailable_slots))
+                                            <span class="status status-filled">Sudah Mengisi</span>
+                                        @else
+                                            <span class="status status-empty">Belum Mengisi</span>
+                                        @endif
+                                    </td>
                                     <td class="action-buttons">
-                                        <a href="{{ route('admin.ruangan.edit', $ruangan->id) }}" class="btn-edit" title="Edit">
+                                        <a href="{{ route('admin.ketersediaan.edit', $dosen->id) }}" class="btn-edit" title="Edit Ketersediaan">
                                             <i class="fas fa-edit"></i>
-                                            Edit
+                                            Edit Ketersediaan
                                         </a>
-                                        <button type="button" class="btn-delete" title="Hapus"
-                                            onclick="showDeleteConfirmation('{{ $ruangan->nama_ruangan }}', '{{ route('admin.ruangan.destroy', $ruangan->id) }}')">
-                                            <i class="fas fa-trash"></i>
-                                            Hapus
-                                        </button>
                                     </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="2" class="empty-state">
-                                        <i class="fas fa-door-open"></i>
-                                        <div>Belum ada data ruangan</div>
+                                    <td colspan="4" class="empty-state">
+                                        <i class="fas fa-chalkboard-teacher"></i>
+                                        <div>Belum ada data dosen</div>
                                     </td>
                                 </tr>
                             @endforelse
@@ -807,82 +743,10 @@
 
                 <!-- Pagination -->
                 <div class="pagination-container">
-                    {{ $ruangans->links() }}
+                    {{ $dosens->links() }}
                 </div>
             </div>
         </main>
     </div>
-
-    <!-- Modal Konfirmasi Hapus -->
-    <div class="confirmation-modal" id="deleteModal">
-        <div class="modal-content">
-            <div class="modal-icon">
-                <i class="fas fa-exclamation-triangle"></i>
-            </div>
-            <h3 class="modal-title">Konfirmasi Penghapusan</h3>
-            <p class="modal-message" id="modalMessage">Apakah Anda yakin ingin menghapus data ruangan ini? Tindakan ini tidak dapat dibatalkan.</p>
-            <div class="modal-actions">
-                <button type="button" class="btn-cancel" id="cancelDelete">Batal</button>
-                <button type="button" class="btn-confirm" id="confirmDelete">Ya, Hapus</button>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        let currentDeleteFormUrl = null;
-
-        function showDeleteConfirmation(ruanganName, deleteUrl) {
-            const modal = document.getElementById('deleteModal');
-            const modalMessage = document.getElementById('modalMessage');
-
-            modalMessage.textContent = `Apakah Anda yakin ingin menghapus ruangan "${ruanganName}"? Tindakan ini tidak dapat dibatalkan.`;
-            currentDeleteFormUrl = deleteUrl;
-            modal.classList.add('active');
-        }
-
-        function hideDeleteConfirmation() {
-            const modal = document.getElementById('deleteModal');
-            modal.classList.remove('active');
-            currentDeleteFormUrl = null;
-        }
-
-        function confirmDelete() {
-            if (currentDeleteFormUrl) {
-                const form = document.createElement('form');
-                form.method = 'POST';
-                form.action = currentDeleteFormUrl;
-
-                const csrfToken = document.createElement('input');
-                csrfToken.type = 'hidden';
-                csrfToken.name = '_token';
-                csrfToken.value = '{{ csrf_token() }}';
-                form.appendChild(csrfToken);
-
-                const methodField = document.createElement('input');
-                methodField.type = 'hidden';
-                methodField.name = '_method';
-                methodField.value = 'DELETE';
-                form.appendChild(methodField);
-
-                document.body.appendChild(form);
-                form.submit();
-            }
-        }
-
-        document.getElementById('cancelDelete').addEventListener('click', hideDeleteConfirmation);
-        document.getElementById('confirmDelete').addEventListener('click', confirmDelete);
-
-        document.getElementById('deleteModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                hideDeleteConfirmation();
-            }
-        });
-
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                hideDeleteConfirmation();
-            }
-        });
-    </script>
 </body>
 </html>

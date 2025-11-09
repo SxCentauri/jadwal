@@ -7,6 +7,8 @@ use App\Http\Controllers\Admin\DosenController;
 use App\Http\Controllers\Admin\MataKuliahController;
 use App\Http\Controllers\Admin\PenugasanMengajarController;
 use App\Http\Controllers\Admin\RuanganController;
+use App\Http\Controllers\Admin\MahasiswaController;
+use App\Http\Controllers\Admin\KetersediaanController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -27,6 +29,10 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::resource('matakuliah', MataKuliahController::class)->except(['show']);
     Route::resource('penugasan', PenugasanMengajarController::class)->except(['show']);
     Route::resource('ruangan', RuanganController::class)->except(['show']);
+    Route::resource('mahasiswa', MahasiswaController::class)->except(['show']);
+    Route::resource('ketersediaan', KetersediaanController::class)->only([
+        'index', 'edit', 'update'
+    ]);
 });
 
 Route::middleware(['auth', 'role:dosen'])->prefix('dosen')->name('dosen.')->group(function () {

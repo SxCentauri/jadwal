@@ -824,7 +824,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="menu-item">
+                    <a href="{{ route('admin.mahasiswa.index') }}" class="menu-item">
                         <div class="menu-icon">
                             <i class="fas fa-users"></i>
                         </div>
